@@ -6,7 +6,7 @@ check for updates in websites and email you about any changes
 ## Setup
  1. clone this repository
  2. run `pip install-r requirements.txt`
- 3. create auth.env file in same directory as check.py with values as follows - 
+ 3. update auth.env file with values as follows - 
 
   ```
   EMAIL= <systemEmail> /* the email from which you want to send email. LessSecureApps must be enabled if gmail */
