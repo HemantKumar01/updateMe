@@ -10,34 +10,40 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
+headers = {
+    "Cache-Control": "no-cache",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0",
+}
+
+
 def sendEmail(From, message, subject):
     print("sending email...")
     load_dotenv("./auth.env")
 
     # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s = smtplib.SMTP("smtp.gmail.com", 587)
 
     # start TLS for security
     s.starttls()
 
-    email = env['EMAIL']
-    password = env['PASSWORD']
+    email = env["EMAIL"]
+    password = env["PASSWORD"]
 
     # Authentication
     s.login(email, password)
 
-    To = env['TOEMAIL']
+    To = env["TOEMAIL"]
 
     # sending the mail
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = subject
-    msg['From'] = From
-    msg['To'] = To
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = From
+    msg["To"] = To
 
     text = "there are updates in website at {url}.\n Unable to show diff kindly visit website to see changes yourself;"
 
-    part1 = MIMEText(text, 'plain')
-    part2 = MIMEText(message, 'html')
+    part1 = MIMEText(text, "plain")
+    part2 = MIMEText(message, "html")
 
     msg.attach(part1)
     msg.attach(part2)
@@ -60,7 +66,8 @@ def showDiff(pathA: str, pathB: str, url: str, fileIndex: int):
     additions = soup.find_all("ins")
     deletions = soup.find_all("del")
     if len(additions) > 0 or len(deletions) > 0:
-        message = '''
+        message = (
+            """
         <html>
         <head><title>Update Me System</title>
         <style>
@@ -91,36 +98,52 @@ def showDiff(pathA: str, pathB: str, url: str, fileIndex: int):
         }
         </style>
         </head>
-        <body>'''+(('''<h1 style="color:green; text-decoration:underline;">Additions<h1>''' + " ".join(([str(x) for x in additions]))) if len(additions) > 0 else ''' \n''')+(('''<h1 style="color:red; text-decoration:underline;">Deletions<h1>''' + " ".join(([str(x) for x in deletions]))) if len(deletions) > 0 else ''' \n''')+'''</body>
-        </html>'''
-        with open(
-                f"./comparison{fileIndex}.html", "w", encoding="utf-8") as localFile:
-            print(
-                f"updating local comparison{fileIndex}.html file for next time")
+        <body>"""
+            + (
+                (
+                    """<h1 style="color:green; text-decoration:underline;">Additions<h1>"""
+                    + " ".join(([str(x) for x in additions]))
+                )
+                if len(additions) > 0
+                else """ \n"""
+            )
+            + (
+                (
+                    """<h1 style="color:red; text-decoration:underline;">Deletions<h1>"""
+                    + " ".join(([str(x) for x in deletions]))
+                )
+                if len(deletions) > 0
+                else """ \n"""
+            )
+            + """</body>
+        </html>"""
+        )
+        with open(f"./comparison{fileIndex}.html", "w", encoding="utf-8") as localFile:
+            print(f"updating local comparison{fileIndex}.html file for next time")
             localFile.write(doc2Content)
 
         sendEmail("UpdateMe System", message, f"Update in website at {url}:")
     else:
         print("NO UPDATES")
 
+    print("\n")
+
 
 urlDataFile = open("./urls.json", "r")
 urlData = urlDataFile.read()
 urlDataFile.close()
 urlData = json.loads(urlData)
-if(len(urlData["urls"]) == 0):
+if len(urlData["urls"]) == 0:
     print("no website set for comparison. first run $: python scrape.py")
     sys.exit()
 
 for i in range(len(urlData["urls"])):
-
     website = urlData["urls"][i]
     print("getting {}...".format(website["url"]))
-    page = requests.get(website["url"])
+    page = requests.get(website["url"], headers=headers)
     formattedPage = BeautifulSoup(page.content, "html.parser")
     htmlNewFile = open(f"./new{i+1}.html", "w", encoding="utf-8")
     htmlNewFile.write(formattedPage.prettify())
     htmlNewFile.close()
 
-    showDiff(f"./comparison{i+1}.html",
-             f"./new{i+1}.html", website["url"], i+1)
+    showDiff(f"./comparison{i+1}.html", f"./new{i+1}.html", website["url"], i + 1)

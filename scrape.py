@@ -3,6 +3,10 @@ from bs4 import BeautifulSoup
 import json
 import sys
 
+headers = {
+    "Cache-Control": "no-cache",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0",
+}
 initialWebpage = ""  # tocompare
 title = ""
 urlData = {
@@ -11,7 +15,7 @@ urlData = {
 }
 
 urlData["url"] = input("ENTER URL:")
-page = requests.get(urlData["url"])
+page = requests.get(urlData["url"], headers=headers)
 
 if page.status_code == 200:
     print("website scraped successfully...")
@@ -32,7 +36,9 @@ urlDataFileData["urls"].append(urlData)
 urlDataJSON = json.dumps(urlDataFileData)
 
 
-with open("./comparison{}.html".format(len(urlDataFileData["urls"])), "w", encoding="utf-8") as htmlFile:
+with open(
+    "./comparison{}.html".format(len(urlDataFileData["urls"])), "w", encoding="utf-8"
+) as htmlFile:
     htmlFile.write(initialWebpage.prettify())
 
 urlDataFile = open("./urls.json", "w")
@@ -40,5 +46,7 @@ urlDataFile.write(urlDataJSON)
 urlDataFile.close()
 
 
-print(f'''"{title}"" named website is set to comaparison.html.
-it will be referenced daily for comparison and we will notify you about any update in it''')
+print(
+    f""""{title}"" named website is set to comaparison.html.
+it will be referenced daily for comparison and we will notify you about any update in it"""
+)
