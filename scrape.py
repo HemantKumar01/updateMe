@@ -37,7 +37,9 @@ urlDataJSON = json.dumps(urlDataFileData)
 
 
 with open(
-    "./comparison{}.html".format(len(urlDataFileData["urls"])), "w", encoding="utf-8"
+    f"./reference_files/comparison{len(urlDataFileData['urls'])}.html",
+    "w",
+    encoding="utf-8",
 ) as htmlFile:
     htmlFile.write(initialWebpage.prettify())
 
