@@ -6,7 +6,8 @@ A script which automatically checks for updates in websites and email you about 
 ## Setup
  1. clone this repository
  2. run `pip install-r requirements.txt`
- 3. update auth.env file with values as follows - 
+ 3. create an empty folder named "tmp".
+ 4. update auth.env file with values as follows - 
 
   ```
   EMAIL= <systemEmail> /* the email from which you want to send email. LessSecureApps must be enabled if gmail */
