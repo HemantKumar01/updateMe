@@ -11,7 +11,7 @@ A script which automatically checks for updates in websites and email you about 
  
   ``` // Note the password below is not your normal google account password.
   EMAIL= <systemEmail> /* the email from which you want to send email. LessSecureApps must be enabled if gmail */
-  PASSWORD = <systemEmailPassword> /* Go to Manage Your Google Account -> Security -> 2 Factor Authentication -> App Passwords (https://support.google.com/accounts/answer/185833?visit_id=638354788869578449-3453718785&p=InvalidSecondFactor&rd=1) */
+  PASSWORD = <systemEmailPassword> /* Go to Manage Your Google Account -> Security -> 2 Step Verification -> App Passwords (https://support.google.com/accounts/answer/185833?visit_id=638354788869578449-3453718785&p=InvalidSecondFactor&rd=1) */
   TOEMAIL=<yourEmail> /* email in which you want to recieve notifications*/
   ```
  ## how to use
