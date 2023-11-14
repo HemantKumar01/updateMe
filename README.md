@@ -1,5 +1,5 @@
 # updateMe
-A script which automatically checks for updates in websites and email you about any changes
+A script which automatically checks for updates in websites and email you about any changes with comparison between new and old content
 
 # Usage
 
