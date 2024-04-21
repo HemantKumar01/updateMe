@@ -29,7 +29,7 @@ class console_colors:
 
 headers = {
     "Cache-Control": "no-cache",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:63.0) Gecko/20100101 Firefox/63.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 }
 
 
@@ -139,13 +139,19 @@ def showDiff(pathA: str, pathB: str, url: str, fileIndex: int):
             + """</body>
         </html>"""
         )
-        with open(
-            f"./reference_files/comparison{fileIndex}.html", "w", encoding="utf-8"
-        ) as localFile:
-            print(f"updating local comparison{fileIndex}.html file for next time")
-            localFile.write(doc2Content)
+        try:
+            sendEmail("UpdateMe System", message, f"Update in website at {url}:")
+            with open(
+                f"./reference_files/comparison{fileIndex}.html", "w", encoding="utf-8"
+            ) as localFile:
+                print(f"updating local comparison{fileIndex}.html file for next time")
+                localFile.write(doc2Content)
+        except Exception as e:
+            print(e)
+            print(
+                f"{console_colors.FAIL}Unable To Send Email.\nRetaining Old Comparison File{console_colors.ENDC}"
+            )
 
-        sendEmail("UpdateMe System", message, f"Update in website at {url}:")
     else:
         print(f"{console_colors.BOLD}NO UPDATES{console_colors.ENDC}")
 

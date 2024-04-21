@@ -1,5 +1,14 @@
-# updateMe
-A script which automatically checks for updates in websites and email you about any changes
+# UpdateMe
+### Tired Of Visiting Some Websites to Check For Updates Daily?
+UpdateMe is an innovative program designed to keep you informed and updated with the latest changes on your favorite websites effortlessly. 
+
+---
+With UpdateMe, users can easily add websites to its queue.
+- **Scheduled scraping:** Upon turning on their PC after that, everytime, the program automatically scrapes the designated websites for any updates since the last check. 
+- **Email Changes:** If any changes are detected, UpdateMe intelligently analyzes the differences and promptly sends a comprehensive email notification to the user's provided email address, highlighting additions and deletions. 
+
+### How it Works?
+![How it Works](image.png)
 
 # Usage
 
